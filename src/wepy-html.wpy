@@ -4,6 +4,16 @@
 		<image class="{{ elem.attrs['class'] }} wepyhtml-tag-img" style="{{ elem.attrs.style }}" data-nodeid="{{ elem.nodeId }}" mode="widthFix" src="{{ elem.attrs.src }}" data-src="{{ elem.attrs['data-src'] || elem.attrs.src }}" @tap="imgTap" lazy-load="true" />
 	</template>
 
+	<!-- 腾讯视频模板 -->
+	<template name="wepyhtml-txv-video">
+		<txv-video 
+  		vid="{{ elem.attrs['data-vid'] }}"   
+  		playerid="{{ elem.attrs['data-playerid'] }}"    
+  		autoplay="{{ false }}" 
+		></txv-video>
+	</template>
+	
+
 	<!-- 视频模板（分图片占位模式和视频模式） -->
 	<template name="wepyhtml-video">
 		<block>
@@ -32,7 +42,11 @@
 		<block wx:if="{{ content }}" wx:for="{{ content }}" wx:for-item="item" wx:key="nodeId">
 			<block wx:if="{{ item.type === 'node' }}">
 				<template is="wepyhtml-img"  wx:if="{{ item.name === 'img' }}" data="{{ elem: item }}"></template>
+				<!-- 腾讯视频 -->
+				<template is="wepyhtml-txv-video" wx:elif="{{ item.name === 'video' && item.attrs['class'] === 'txv-video' }}" data="{{ elem: item}}"></template>
+
 				<template is="wepyhtml-video" wx:elif="{{ item.name === 'video' }}" data="{{ elem: item, imgInsteadOfVideo: imgInsteadOfVideo }}"></template>
+				
 				<template is="wepyhtml-audio" wx:elif="{{ item.name === 'audio' }}" data="{{ elem: item }}"></template>
 				<template is="wepyhtml-br" wx:elif="{{ item.name === 'br' }}"></template>
 				<view wx:elif="{{ item.name === 'a' }}" class="wepyhtml-tag-{{ item.name }} wepyhtml-display-inline" style="{{ item.attrs.style }}" data-nodeid="{{ item.nodeId }}" data-href="{{ item.attrs.href }}" @tap="hyperlinkTap">
@@ -165,6 +179,7 @@ export default class WepyHTML extends wepy.component {
 			})).nodes();
 		}
 		this.content = content || [];
+		// console.log("content为"+ JSON.stringify(content));
 		this.$apply();
 	}
 
