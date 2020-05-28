@@ -101,3 +101,8 @@ export default class Page extends wepy.component {
 }
 </script>
 ```
+## 腾迅视频支持
+支持解析如下格式的代码为<txv-video>标签 需要小程序增加官方腾讯视频插件
+```html
+<video class="txv-video" data-vid="n0326tsvoqf" data-playerid="n0326tsvoqf"></video>
+```
